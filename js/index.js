@@ -9,6 +9,10 @@ window.onload = () => {
 };
 
 function startGame() {
+  loadBackground();
+}
+
+function loadBackground() {
   const img = new Image();
   img.src = '/images/road.png';
   const backgroundImage = {
@@ -19,20 +23,63 @@ function startGame() {
     }
   };
   backgroundImage.draw();
-  requestAnimationFrame(startGame);
+  requestAnimationFrame(loadBackground);
 }
 
+const carImg = new Image();
+
+carImg.src = '/images/car.png';
+
+const car = {
+  img: carImg,
+  x: 115,
+  y: 320
+};
+
 function drawCar() {
-  const carImg = new Image();
-  carImg.src = '/images/car.png';
-  const car = {
-    img: carImg,
-    x: 115,
-    y: 280,
+  const carOnScreen = {
     draw: function () {
-      ctx.drawImage(this.img, this.x, this.y, 50, 90);
+      ctx.drawImage(car.img, car.x, car.y, 50, 90);
     }
   };
-  car.draw();
+  carOnScreen.draw();
   requestAnimationFrame(drawCar);
 }
+
+function moveUp() {
+  car.y -= 5;
+}
+
+function moveDown() {
+  car.y += 5;
+}
+
+function moveRight() {
+  car.x += 5;
+}
+
+function moveLeft() {
+  car.x -= 5;
+}
+
+function enableControls() {
+  window.addEventListener('keydown', (event) => {
+    const key = event.code;
+    switch (key) {
+      case 'ArrowUp':
+        moveUp();
+        break;
+      case 'ArrowDown':
+        moveDown();
+        break;
+      case 'ArrowRight':
+        moveRight();
+        break;
+      case 'ArrowLeft':
+        moveLeft();
+        break;
+    }
+  });
+}
+
+enableControls();
